@@ -18,7 +18,9 @@ Run `node server.mjs` in this folder, then open http://127.0.0.1:5173. Node.js i
 - Ramps: launch higher jumps
 - Finish the 1,800 m course to see results
 
-Touch controls and an automatic Watch demo mode are included. Sound is synthesized locally and opt-in.
+Touch controls and an automatic Watch demo mode are included. Music and synthesized sound effects are enabled by default. The supplied Happy Coder track starts when you click Hit the slopes or Watch demo and loops during play at 30% volume. Pause (including leaving the tab) pauses the music; resuming continues it. The Sound button mutes both music and effects. Browsers require an interaction before audible playback, so music starts with the play button rather than on page load.
+
+When publishing an update to GitHub Pages, upload `index.html`, `game.js`, and the `assets` folder containing `happy-coder.mp3`. Keep the assets folder alongside index.html. The MP3 is the user-supplied music file.
 
 ## Reference study
 
