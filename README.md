@@ -10,7 +10,7 @@ Run `node server.mjs` in this folder, then open http://127.0.0.1:5173. Node.js i
 
 - A/D or left/right arrows: steer
 - Space: jump
-- Q/E while airborne: spin (complete a rotation before landing for 300 points)
+- Q/E: jump and spin left/right, or start a spin during an existing jump (complete a rotation before landing for 300 points)
 - Shift or W: boost; release to recharge
 - P/Escape: pause
 - Stars: 100 points and a little boost energy
