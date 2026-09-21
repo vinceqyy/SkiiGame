@@ -18,6 +18,21 @@ const mountains=new T.Group();scene.add(mountains);for(let i=0;i<18;i++){const x
 for(let i=0;i<12;i++){const cloud=new T.Group();scene.add(cloud);cloud.position.set((rand()-.5)*400,65+rand()*35,-100-rand()*300);for(let j=0;j<4;j++)ball(cloud,snow,j*5,rand()*2,0,5,1.6,.5,.8);}
 const skier=new T.Group();scene.add(skier);const body=new T.Group();skier.add(body);ball(body,orange,0,1.15,0,.46,1,1.1,.75);ball(body,white,-.24,.64,0,.25,.7,1.2,.8);ball(body,white,.24,.64,0,.25,.7,1.2,.8);box(body,navy,-.23,.35,0,.29,.25,.5);box(body,navy,.23,.35,0,.29,.25,.5);
 const skis=[];for(const x of [-.25,.25]){const ski=box(body,pink,x,.17,-.25,.22,.09,2.2);ball(body,pink,x,.22,-1.31,.11,1,.5,1);skis.push(ski);}ball(body,helmet,0,1.95,0,.58,1,1,.94);ball(body,glass,0,2,-.4,.49,1,.4,.43);box(body,navy,0,2,.44,1.04,.13,.12);const scarf=box(body,gold,0,1.51,0,.78,.15,.74);box(body,gold,.35,1.42,.53,.2,.6,.08).rotation.x=-.5;ball(body,navy,0,1.12,.38,.35,.85,1,.4);box(body,gold,0,1.16,.54,.09,.3,.07);
+// Lettering conforms to the helmet shell: no backing, border, or raised tag.
+const nameCanvas=document.createElement('canvas');nameCanvas.width=768;nameCanvas.height=192;
+const nameCtx=nameCanvas.getContext('2d');
+nameCtx.fillStyle='#f6f2db';nameCtx.font='italic bold 138px Georgia, serif';nameCtx.textAlign='center';nameCtx.textBaseline='middle';nameCtx.fillText('Stella',384,104);
+const nameTexture=new T.CanvasTexture(nameCanvas);nameTexture.colorSpace=T.SRGBColorSpace;nameTexture.anisotropy=renderer.capabilities.getMaxAnisotropy();
+const nameGeometry=new T.PlaneGeometry(.82,.21,32,12);
+const namePositions=nameGeometry.attributes.position;
+for(let i=0;i<namePositions.count;i++){
+  const px=namePositions.getX(i),py=namePositions.getY(i)-.18;
+  // Match the helmet's spherical radius and slightly flattened depth.
+  namePositions.setXYZ(i,px,py+1.95,Math.sqrt(.58*.58-px*px-py*py)*.94+.006);
+}
+nameGeometry.computeVertexNormals();
+const helmetName=mesh(nameGeometry,new T.MeshStandardMaterial({map:nameTexture,transparent:true,roughness:.35,depthWrite:false,polygonOffset:true,polygonOffsetFactor:-1}),body);
+helmetName.castShadow=false;
 for(const s of [-1,1]){const arm=ball(body,orange,s*.49,1.2,0,.23,1,1.4,1);arm.rotation.z=s*.65;ball(body,navy,s*.64,1.04,0,.16);const pole=cylinder(body,dark,s*.72,.61,.25,.025,1.15);pole.rotation.x=-.5;mesh(new T.TorusGeometry(.1,.015,4,10),dark,body,s*.72,.12,.53).rotation.x=Math.PI/2;}
 const shadow=mesh(new T.CircleGeometry(.85,24),new T.MeshBasicMaterial({color:0x537d92,transparent:true,opacity:.17,depthWrite:false}),scene);shadow.rotation.x=-Math.PI/2;shadow.position.y=.015;shadow.castShadow=false;
 const entities=[];function starGeometry(){const sh=new T.Shape();for(let i=0;i<10;i++){const a=i*Math.PI/5+Math.PI/2,r=i%2?.3:.66;const x=Math.cos(a)*r,y=Math.sin(a)*r;i?sh.lineTo(x,y):sh.moveTo(x,y);}sh.closePath();return new T.ExtrudeGeometry(sh,{depth:.18,bevelEnabled:true,bevelThickness:.08,bevelSize:.05,bevelSegments:2,steps:1});}const sg=starGeometry();
